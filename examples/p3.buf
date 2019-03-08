@@ -1,0 +1,10 @@
+switch (@_$*) {
+  case "": `...
+  case Texas: `SUPER. HOT.
+  case California, Oregon, Washington: `West Coast Best Coast
+  case "New York": `CONCRETE JUNGLE WHERE DREAMS ARE MADE OF
+  case Pennsylvania: `GO STILLERS
+  case Canada: `ThankEgg
+  default: `Never heard of it
+}
+

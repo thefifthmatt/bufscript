@@ -1,0 +1,42 @@
+# python -m pylint bufscript tests
+
+[MASTER]
+
+ignore-patterns=parsetab.py
+
+disable=
+    # It's not bad to have pending refactorings??
+    fixme,
+    # ?????
+    too-few-public-methods,
+    # There are lots of small data classes, so wildcard imports/long methods are ok
+    unused-wildcard-import,
+    wildcard-import,
+    too-many-branches,
+    too-many-locals,
+    too-many-return-statements,
+    too-many-statements,
+    # This is good actually
+    trailing-newlines,
+    # Just use implicit init
+    no-init,
+    # Actually these help case analysis and readability
+    len-as-condition,
+    no-else-return,
+    non-parent-init-called,
+    using-constant-test,
+    # The exception args actually do string formatting (for now)
+    raising-format-tuple,
+
+# This is probably reasonable
+max-line-length = 160
+
+# Python has no @Override, so don't require method docstrings.
+no-docstring-rgx=(__.*__|[a-z_]+)$
+
+# No minimum length requirements for variables
+argument-rgx=[a-z_][a-z0-9_]*$
+variable-rgx=[a-z_][a-z0-9_]*$
+attr-rgx=[a-z_][a-z0-9_]*$
+const-rgx=[a-zA-Z0-9_]+$
+

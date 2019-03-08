@@ -1,0 +1,12 @@
+$ban = persist("mattban")
+$newban = $ban - 1
+if ($newban >= 1) {
+  `Your vote to save Matt has been recorded.
+} else if ($newban == 0) {
+  `Matt has been saved by your vote and invited back to chat.
+} else if ($newban < 0) {
+  `Your vote has been cherished by Matt.
+}
+if ($newban >= -2) {
+  $ban = $newban
+}

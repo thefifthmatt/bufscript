@@ -1,0 +1,5 @@
+switch (@_$*) {
+  case on: ~alias add docket getdocket
+  case off: ~alias del docket
+  default: `Usage: ~nlssdocket [on|off], to alias for ~docket
+}

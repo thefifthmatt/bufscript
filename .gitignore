@@ -1,0 +1,7 @@
+*.pyc
+bufscript/parser.out
+bufscript/parsetab.py
+examples/*.bsl
+.python-version
+**/__pycache__
+

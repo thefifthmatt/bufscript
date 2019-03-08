@@ -1,0 +1,175 @@
+# BufScript
+
+BufScript is a compiler for BSL, BufBot Scripting Language.
+
+Reference for BufBot and BSL is at https://www.bufutda.com/bufbot/
+
+## How do I write Bufscript?
+Check out the files in `examples/` - more examples to come. For now it's best
+to be familiar with BSL and maybe dive into the compiler source a bit. Some
+better documentation at some point. The compiler is *not* meant to be
+backwards compatible at this point, but the syntax is basically set in stone.
+
+Some examples of usages (with caveat: $var++/$var--/quit do not yet work without
+semicolons at the end).
+
+Using variables and outputting messages (only int values/flags allowed in
+variables):
+
+```
+$var = parseint(@_$1)
+$var = @_v + $var
+`Your number is $var, @_u
+```
+
+Various BSL features:
+
+```
+$roll = rand(1..6)
+$tcount = hash(@_u, 0..100, 0)
+$othercount = hash(@_u, 0..100, "name")
+```
+
+Having variables saved across command calls (works the same regardless of
+variable name, only depends on what's passed to `persist`):
+
+```
+$count = persist("roulettecount")
+if ($count == 0) {
+    `BANG! @_u got blepped
+    $count = rand(0..6)
+} else {
+    `CLICK! @_u is safe
+    $count--
+}
+```
+
+Calling commands:
+
+```
+~kadgar @_b @_$1
+$count = persist("squadcount")
+$count++
+```
+
+String case statements:
+
+```
+$score = 0
+switch (@_u) {
+    case streamer: $score = 100
+    case chatter1, chatter2: $score = 50
+    case chatter3, chatter4: $score = 25
+    default:
+        `No!
+        quit;
+}
+`Your score is $score, @_u
+```
+
+Int case statements (note: overlapping ranges will become an
+error at some point):
+
+```
+switch (rand(0..100)) {
+  case 0..19: `Try again soon!
+  case 20:
+      $num = rand(1000000..9999999)
+      `CONGRATULATIONS YOU ARE THE VISITOR #$num
+  case 21..60: `Yes
+  case 61..100: `No
+}
+```
+
+Single-line input:
+
+```
+$score = 0; switch (@_u) { case streamer: $score = 100; case chatter1, chatter2:
+  ↳ $score = 50; case chatter3, chatter4: $score = 25; default: `No!; quit; }
+  ↳ `Your score is $score, @_u
+```
+
+## Quick function reference
+
+To declare a variable name that is persisted across commands. 0 by default.
+
+```$var = persist('counter')```
+
+Gets a random number in the range, inclusive.
+
+```$var = rand(1..100)```
+
+Gets a deterministic hash of a flag in the range, inclusive, with an integer or
+string seed.
+
+```$var = hash(@_u, 0..100, <seed>)```
+
+Detects/parses when string flags have integer values. (parseint is just an
+isint check that quits on failure.)
+
+```
+if (isint(@_$1)) {
+  $var = parseint(@_$1)
+}
+```
+Sleeps for the given amount of time in milliseconds. Limit of 10 seconds.
+
+```sleep(500)```
+
+Gets the current time in epoch seconds.
+
+These functions, flags, and built-in ops can be seen in optypes.py.
+
+```$var = time()```
+
+## How to run
+
+With Python 3. Recommended to use pyenv. For instance:
+
+```
+$ eval "$(pyenv init -)"
+$ pyenv versions
+$ pyenv local 3.7.0
+```
+
+Installing dependencies:
+
+```$ pip install -r requirements.txt```
+
+Producing output from a source file for a single command:
+
+```$ python -m bufscript.buf examples/p1.buf```
+
+For now just outputs to stdout.
+
+```$ cat examples/p1.buf | python -m bufscript.buf -```
+
+Can be used as well. (Useless use of cat aside.)
+
+For running the compiler, it either succeeds or not based on its exit code.
+Ideally when it succeeds it outputs to stdout and puts nothing in stderr
+(besides maybe warnings), and when it fails it puts nothing in stdout and
+prints errors in stderr.
+
+```$ python -m tests.test```
+
+Will run automatic tests which currently exist.
+
+Finally, a very ramshackled way to simulate BSL, not very user friendly.
+See command line options in the file itself.
+
+```$ python -m bufscript.buf myscript.bsl | python -m tests.test_simulate```
+
+## Development
+Feel free to send bugs/feature requests to tracker or in discord.
+
+There are few ongoing refactorings so contributing may be tricky. The overall
+approach is (mostly) immutable representations and ADT-like transformations
+of them, meaning liberal use of instanceof. The codebase generally avoids
+object-oriented patterns in favor of explicit data and comprehensive cases.
+Follow https://google.github.io/styleguide/pyguide.html and linter.
+
+Running the linter:
+
+```$ python -m pylint bufscript tests```
+

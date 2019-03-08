@@ -1,0 +1,10 @@
+More test suite, try to get full coverage for each corner case
+Fix persistent variable display in IR
+Ensure &&/|| are fully usable in all cases
+Do not allow using arg flags as ints without calling parseint
+Type-checking should fully support all eq cases, needs rewrite
+Change lexer representation to a class w build method, fully implement reset
+grep TODO *.py
+Implement murmur for inlining and hash usage
+Clean up basic blocks so that unused labels are removed
+

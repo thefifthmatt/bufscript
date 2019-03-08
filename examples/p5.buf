@@ -1,0 +1,23 @@
+$fortune = rand(1..20)
+switch ($fortune) {
+  case 1: `It is certain
+  case 2: `It is decidedly so
+  case 3: `Without a doubt
+  case 4: `Yes definitely
+  case 5: `You may rely on it
+  case 6: `As I see it, yes
+  case 7: `Most likely
+  case 8: `Outlook good
+  case 9: `Yes
+  case 10: `Signs point to yes
+  case 11: `Reply hazy try again
+  case 12: `Ask again later
+  case 13: `Better not tell you now
+  case 14: `Cannot predict now
+  case 15: `Concentrate and ask again
+  case 16: `Don't count on it
+  case 17: `My reply is no
+  case 18: `My sources say no
+  case 19: `Outlook not so good
+  case 20: `Very doubtful
+}

@@ -1,0 +1,6 @@
+$ok = rand(0..1);
+if ($ok == 0) {
+  `I'm okay
+} else {
+  `I'm not okay
+}

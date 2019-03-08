@@ -1,0 +1,6 @@
+$roll = rand(1..6)
+switch ($roll) {
+  case 1..5: `@_u lives to meme another day.
+  case 6: `@_u has been banned from chat.
+}
+
